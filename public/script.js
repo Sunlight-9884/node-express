@@ -1,59 +1,118 @@
-const playListContainerTag =
-  document.getElementsByClassName("playListContainer")[0];
-const currentTimeAndTotaltimeTag = document.getElementsByClassName(
-  "currentTimeAndTotaltime"
+const playlistContainerTag =
+  document.getElementsByClassName("playlistContainer")[0];
+const audioTag = document.getElementsByClassName("audioTag")[0];
+const currentTimeTextandDurationTag = document.getElementsByClassName(
+  "currentAndTotleTime"
 )[0];
-const audioTag = document.getElementsByClassName("song")[0];
-const currentProgressTag = document.getElementById("currentProgress");
-const playButton = document.getElementsByClassName("play-btn")[0];
-const pauseButton = document.getElementsByClassName("pause-btn")[0];
-const nextButton = document.getElementsByClassName("next-btn")[0];
-const backwardButton = document.getElementsByClassName("backward-btn")[0];
+const currentProgressTag = document.getElementById("currentProgressID");
+const playButtonTag = document.getElementsByClassName("playButton")[0];
+const pauseButtonTag = document.getElementsByClassName("pauseButton")[0];
+const previousButtonTag = document.getElementsByClassName("previousButton")[0];
+const nextButtonTag = document.getElementsByClassName("nextButton")[0];
 const tracks = [
   {
-    trackId: "./public/loa.mp4",
-    title: "SaiSaiKhamLeng- YeeZarSar",
+    trackId: "loa.mp3",
+    title: "unknows",
+  },
+
+  {
+    trackId: "loa.mp3",
+    title: "unknowggggg",
   },
   {
-    trackId: "loa.mp4",
-    title: "GFatt-နာရတဲ့ကဗ်ာ",
+    trackId: "loa.mp3",
+    title: "unknowdfdgg",
+  },
+  {
+    trackId: "loa.mp3",
+    title: "unknow",
   },
 ];
+
 for (let i = 0; i < tracks.length; i++) {
   const trackTag = document.createElement("div");
-  trackTag.classList.add("track-item");
-  const title = (i + 1).toString() + " . " + tracks[i].title;
-  trackTag.textContent = title;
-  playListContainerTag.append(trackTag);
   trackTag.addEventListener("click", () => {
-    const trackId = tracks[i].trackId;
-    audioTag.src = trackId;
-    audioTag.play();
+    currentPlayingIndex = i;
+    playSong();
   });
+
+  trackTag.classList.add("trackItem");
+  const title = (i + 1).toString() + "." + tracks[i].title;
+  trackTag.textContent = title;
+  playlistContainerTag.append(trackTag);
 }
-let dur_ation = 0;
+let duration = 0;
 let durationText = "00:00";
 audioTag.addEventListener("loadeddata", () => {
-  dur_ation = Math.floor(audioTag.duration);
-  durationText = createMinuteAndSecondText(dur_ation);
+  duration = Math.floor(audioTag.duration);
+  durationText = createTime(duration);
 });
 audioTag.addEventListener("timeupdate", () => {
-  const current_Time = Math.floor(audioTag.currentTime);
-  const currentTimeText = createMinuteAndSecondText(current_Time);
-  const currentTimeTextandDurationText = currentTimeText + ":" + durationText;
-  currentTimeAndTotaltimeTag.textContent = currentTimeTextandDurationText;
-  updateCurrentProgress(current_Time);
+  const currentTime = Math.floor(audioTag.currentTime);
+  const currentTimeText = createTime(currentTime);
+  const currentTimeTextandDurationText = currentTimeText + " / " + durationText;
+  currentTimeTextandDurationTag.textContent = currentTimeTextandDurationText;
+  updateCurrentProgress(currentTime);
 });
+const updateCurrentProgress = (currentTime) => {
+  const currentProgressWidth = (500 / duration) * currentTime;
+  currentProgressTag.style.width = currentProgressWidth.toString() + "px";
 
-const updateCurrentProgress = (current_Time) => {
-  const currentProgresswitdh = (500 / dur_ation) * current_Time;
-  currentProgressTag.style.width = currentProgresswitdh + "px";
 };
 
-const createMinuteAndSecondText = (totalSeconds) => {
-  const minute = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  const minuteText = minute < 10 ? "0" + minute.toString() : minute;
-  const secondsText = seconds < 10 ? "0" + seconds.toString() : seconds;
-  return minuteText + ":" + secondsText;
+const createTime = (totalSecond) => {
+  const minutes = Math.floor(totalSecond / 60);
+  const seconds = totalSecond % 60;
+  const minuteText = minutes < 10 ? "0" + minutes.toString() : minutes;
+
+  const secondText = seconds < 10 ? "0 " + seconds.toString() : seconds;
+  return minuteText + ":" + secondText;
+};
+let currentPlayingIndex = 0;
+let isplaying = false;
+playButtonTag.addEventListener("click", () => {
+  const currentTime = Math.floor(audioTag.currentTime);
+  isplaying = true;
+  if (currentTime === 0) {
+    playSong();
+  } else {
+    audioTag.play();
+    updatePlayAndPauseButton();
+  }
+});
+pauseButtonTag.addEventListener("click", () => {
+  isplaying = false;
+  audioTag.pause();
+  updatePlayAndPauseButton();
+});
+previousButtonTag.addEventListener("click", () => {
+  if (currentPlayingIndex == 0) {
+    return;
+  }
+  currentPlayingIndex -= 1;
+  playSong();
+});
+nextButtonTag.addEventListener("click", () => {
+  if (currentPlayingIndex === tracks.length - 1) {
+    return;
+  }
+  currentPlayingIndex += 1;
+  playSong();
+});
+const playSong = () => {
+  const songIdPlay = tracks[currentPlayingIndex].trackId;
+  audioTag.src = songIdPlay;
+  audioTag.play();
+  isplaying = true;
+  updatePlayAndPauseButton();
+};
+
+const updatePlayAndPauseButton = () => {
+  if (isplaying) {
+    playButtonTag.style.display = "none";
+    pauseButtonTag.style.display = "inline";
+  } else {
+    playButtonTag.style.display = "inline";
+    pauseButtonTag.style.display = "none";
+  }
 };

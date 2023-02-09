@@ -1,56 +1,41 @@
 body {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  background-color: rgb(37, 39, 42);
+  background-color: rgb(66, 62, 62);
 }
 .container {
-  margin: auto;
-  max-width: 500px;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
-.playListContainer {
-  margin-bottom: 50px;
-}
-.track-item {
-  font-size: 18px;
-  color: goldenrod;
-  font-family: monospace;
-  padding: 7px;
-  border-bottom: 2px solid rgba(19, 18, 18, 0.775);
-}
-.currentTimeAndTotaltime {
-  color: goldenrod;
-  font-size: 18px;
-  font-family: monospace;
-  margin-bottom: 7px;
-}
-.prograssBar {
-  width: 500px;
-  height: 5px;
-  background-color: white;
-  border-radius: 5px;
-}
-.currentProgress {
-  width: 0px;
-  height: 100%;
-  background-color: dodgerblue;
-}
-.pause-buttom {
-  display: none;
-}
-.controls {
-  margin: 10px 40px 10px 40px;
+.trackItem {
+  color: rgb(222, 236, 15);
   font-size: 20px;
-  color: goldenrod;
+  border-bottom: 1px solid rgb(247, 239, 239);
+  padding: 10px 0px;
   cursor: pointer;
   user-select: none;
+  margin-bottom: 10px;
 }
-.musicPlayer {
-  display: flex;
-  flex-direction: row;
+.currentAndTotleTime {
+  color: rgb(240, 234, 234);
+}
+#progressBar {
+  background-color: rgb(246, 246, 247);
+  height: 3px;
+  width: 500px;
+}
+#currentProgress {
+  width: 0%;
+  height: 100%;
+  background-color: brown;
+}
+.controls {
+  font-size: 20px;
+  color: rgb(15, 15, 15);
+  margin: 20px 30px;
+  cursor: pointer;
+}
+.pauseButton {
+  display: none;
 }
