@@ -1,13 +1,18 @@
 const express = require("express");
 const app = express();
 const fs = express("fs");
-const dotenv = require(".env");
+const env = require("dotenv");
 const event = require("http");
 const path = express("path");
 
 const port = 3000;
 app.set("view engine", "pug"); // testing view engine
 app.use(express.static("public"));
+
+env.config
+
+console.log(process.env.URL);
+
 
 app.use((req, res, next) => {
   next();
